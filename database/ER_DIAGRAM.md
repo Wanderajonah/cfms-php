@@ -11,6 +11,7 @@ erDiagram
     feedback ||--o{ responses : has
     feedback ||--o{ attachments : owns
     users ||--o{ attachments : uploads
+    branches ||--o{ feedback : "located at"
 
     roles {
       int id PK
@@ -24,9 +25,15 @@ erDiagram
       varchar password_hash
       tinyint is_active
     }
+    branches {
+      int id PK
+      varchar name UK
+      tinyint is_active
+    }
     feedback {
       int id PK
       int ticket_number UK
+      int branch_id FK
       enum category
       enum type
       enum status

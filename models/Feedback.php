@@ -24,7 +24,9 @@ final class Feedback extends BaseModel
         $total = (int) $this->fetchColumn("SELECT COUNT(*) FROM feedback $where", $params);
 
         $items = $this->fetchAll(
-            "SELECT * FROM feedback $where ORDER BY $order LIMIT :limit OFFSET :offset",
+            "SELECT f.*, b.name AS branch_name
+             FROM feedback f LEFT JOIN branches b ON b.id = f.branch_id
+             $where ORDER BY $order LIMIT :limit OFFSET :offset",
             $params + ['limit' => $limit, 'offset' => $offset]
         );
 
@@ -39,7 +41,12 @@ final class Feedback extends BaseModel
 
     public function find(int $id): ?array
     {
-        $row = $this->fetch('SELECT * FROM feedback WHERE id = :id LIMIT 1', ['id' => $id]);
+        $row = $this->fetch(
+            'SELECT f.*, b.name AS branch_name
+             FROM feedback f LEFT JOIN branches b ON b.id = f.branch_id
+             WHERE f.id = :id LIMIT 1',
+            ['id' => $id]
+        );
         return $row ? $this->serialize($row) : null;
     }
 
@@ -62,11 +69,11 @@ final class Feedback extends BaseModel
 
         $id = $this->insert(
             'INSERT INTO feedback
-            (ticket_number, name, email, phone, category, type, rating, message, status, priority, assigned_to, staff_notes,
+            (ticket_number, name, email, phone, branch_id, category, type, rating, message, status, priority, assigned_to, staff_notes,
              escalation_note, response, responded_at, resolved_at, automated_sms_at, automated_sms_body,
              automated_sms_error, automated_sms_skipped, created_at, updated_at)
              VALUES
-            (:ticket_number, :name, :email, :phone, :category, :type, :rating, :message, :status, :priority, :assigned_to,
+            (:ticket_number, :name, :email, :phone, :branch_id, :category, :type, :rating, :message, :status, :priority, :assigned_to,
              :staff_notes, :escalation_note, :response, :responded_at, :resolved_at, :automated_sms_at,
              :automated_sms_body, :automated_sms_error, :automated_sms_skipped, :created_at, :updated_at)',
             $clean + ['ticket_number' => $ticket, 'created_at' => $this->now(), 'updated_at' => $this->now()]
@@ -293,17 +300,21 @@ final class Feedback extends BaseModel
 
     public function customers(string $search = ''): array
     {
-        $sql = 'SELECT name, email, phone, COUNT(*) AS feedback_count, MAX(created_at) AS last_feedback
-                FROM feedback WHERE name IS NOT NULL';
+        $sql = 'SELECT f.name, f.email, f.phone, COUNT(*) AS feedback_count, MAX(f.created_at) AS last_feedback,
+                       (SELECT b.name FROM branches b
+                        JOIN feedback fb ON fb.branch_id = b.id
+                        WHERE fb.name = f.name AND (fb.email = f.email OR fb.email IS NULL)
+                        GROUP BY b.name ORDER BY COUNT(*) DESC LIMIT 1) AS branch
+                FROM feedback f WHERE f.name IS NOT NULL';
         $params = [];
         if ($search !== '') {
-            $sql .= ' AND (name LIKE :search OR email LIKE :search2 OR phone LIKE :search3)';
+            $sql .= ' AND (f.name LIKE :search OR f.email LIKE :search2 OR f.phone LIKE :search3)';
             $like = '%' . $search . '%';
             $params['search'] = $like;
             $params['search2'] = $like;
             $params['search3'] = $like;
         }
-        $sql .= ' GROUP BY COALESCE(email, phone, name) ORDER BY last_feedback DESC LIMIT 100';
+        $sql .= ' GROUP BY f.name, f.email, f.phone ORDER BY last_feedback DESC LIMIT 100';
         return $this->fetchAll($sql, $params);
     }
 
@@ -327,6 +338,7 @@ final class Feedback extends BaseModel
             'name' => $pick('name') === '__missing__' ? ($defaults ? null : '__missing__') : ($pick('name') ?: null),
             'email' => $pick('email') === '__missing__' ? ($defaults ? null : '__missing__') : (strtolower($pick('email')) ?: null),
             'phone' => $pick('phone') === '__missing__' ? ($defaults ? null : '__missing__') : ($pick('phone') ?: null),
+            'branch_id' => array_key_exists('branch_id', $data) && $data['branch_id'] !== '' ? (int) $data['branch_id'] : ($defaults ? null : '__missing__'),
             'category' => in_array($category, self::CATEGORIES, true) ? $category : ($defaults ? 'Other' : '__missing__'),
             'type' => in_array($type, self::TYPES, true) ? $type : ($defaults ? 'suggestion' : '__missing__'),
             'rating' => $rating === '__missing__' ? '__missing__' : (($rating >= 1 && $rating <= 5) ? $rating : null),
@@ -360,6 +372,10 @@ final class Feedback extends BaseModel
             $clauses[] = 'assigned_to = :assignedTo';
             $params['assignedTo'] = (string) $filters['assignedTo'];
         }
+        if (!empty($filters['branch_id'])) {
+            $clauses[] = 'branch_id = :branch_id';
+            $params['branch_id'] = (int) $filters['branch_id'];
+        }
         if (!empty($filters['search'])) {
             $like = '%' . trim((string) $filters['search']) . '%';
             $clauses[] = '(message LIKE :search1 OR name LIKE :search2 OR email LIKE :search3 OR phone LIKE :search4)';
@@ -383,6 +399,8 @@ final class Feedback extends BaseModel
     {
         $row['_id'] = (string) $row['id'];
         $row['ticketNumber'] = (int) $row['ticket_number'];
+        $row['branchId'] = isset($row['branch_id']) && $row['branch_id'] !== null ? (int) $row['branch_id'] : null;
+        $row['branchName'] = $row['branch_name'] ?? null;
         $row['assignedTo'] = $row['assigned_to'];
         $row['staffNotes'] = $row['staff_notes'];
         $row['escalationNote'] = $row['escalation_note'];

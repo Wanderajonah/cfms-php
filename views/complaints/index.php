@@ -1,16 +1,21 @@
 <section class="panel mb-4">
     <form class="row g-2">
-        <div class="col-md-3"><input name="search" value="<?= Security::e($filters['search'] ?? '') ?>" class="form-control" placeholder="Search feedback"></div>
+        <div class="col-md-3"><input name="search" value="<?= Security::e($filters['search'] ?? '') ?>" class="form-control" placeholder="Search complaints"></div>
         <div class="col-md-2"><select name="status" class="form-select"><option value="">All statuses</option><?php foreach (Feedback::STATUSES as $s): ?><option value="<?= $s ?>" <?= ($filters['status'] ?? '') === $s ? 'selected' : '' ?>><?= $s ?></option><?php endforeach; ?></select></div>
         <div class="col-md-2"><select name="category" class="form-select"><option value="">All categories</option><?php foreach (Feedback::CATEGORIES as $c): ?><option <?= ($filters['category'] ?? '') === $c ? 'selected' : '' ?>><?= $c ?></option><?php endforeach; ?></select></div>
         <div class="col-md-2"><select name="priority" class="form-select"><option value="">All priorities</option><?php foreach (Feedback::PRIORITIES as $p): ?><option value="<?= $p ?>" <?= ($filters['priority'] ?? '') === $p ? 'selected' : '' ?>><?= $p ?></option><?php endforeach; ?></select></div>
         <div class="col-md-2"><select name="branch_id" class="form-select"><option value="">All branches</option><?php foreach ($branches as $b): ?><option value="<?= (int) $b['id'] ?>" <?= ($filters['branch_id'] ?? '') == $b['id'] ? 'selected' : '' ?>><?= Security::e($b['name']) ?></option><?php endforeach; ?></select></div>
-        <div class="col-md-1"><button class="btn btn-primary"><i class="bi bi-search"></i></button></div>
+        <div class="col-md-1"><button class="btn btn-danger"><i class="bi bi-search"></i></button></div>
     </form>
 </section>
+
 <section class="panel">
-    <?php require __DIR__ . '/table.php'; ?>
-    <nav><ul class="pagination mb-0">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 class="h5 mb-0"><i class="bi bi-exclamation-triangle text-danger"></i> Complaints</h2>
+        <span class="badge bg-danger"><?= (int) $data['total'] ?> total</span>
+    </div>
+    <?php require __DIR__ . '/../feedback/table.php'; ?>
+    <nav><ul class="pagination mb-0 mt-3">
         <?php
         $tp = $data['totalPages'];
         $cp = $data['page'];

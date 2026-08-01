@@ -23,7 +23,7 @@ Authentication uses `Authorization: Bearer <token>` for protected routes. Login 
 | Method | Endpoint | Access | Description |
 |---|---|---|---|
 | GET | `/feedback/summary` | Admin | Dashboard totals, categories, monthly/daily series |
-| GET | `/feedback` | Public | List feedback with `page`, `limit`, `status`, `category`, `type`, `priority`, `assignedTo`, `search`, `sort` |
+| GET | `/feedback` | Public | List feedback with `page`, `limit`, `status`, `category`, `type`, `priority`, `assignedTo`, `branch_id`, `search`, `sort` |
 | GET | `/feedback/{id}` | Public | Get feedback |
 | POST | `/feedback` | Public | Submit feedback |
 | POST | `/feedback/{id}/assign` | Admin | Set `assignedTo`, status becomes `in-progress` |

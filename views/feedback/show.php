@@ -9,10 +9,11 @@
             <p><?= nl2br(Security::e($item['message'])) ?></p>
             <?php if ($item['response']): ?><div class="alert alert-success"><strong>Response:</strong><br><?= nl2br(Security::e($item['response'])) ?></div><?php endif; ?>
             <div class="row g-2 text-secondary small">
+                <div class="col-md-3">Branch: <?= Security::e($item['branchName'] ?? '-') ?></div>
                 <div class="col-md-3">Category: <?= Security::e($item['category']) ?></div>
                 <div class="col-md-3">Type: <?= Security::e($item['type']) ?></div>
-                <div class="col-md-3">Rating: <?= Security::e((string) $item['rating']) ?></div>
                 <div class="col-md-3">Priority: <?= Security::e($item['priority']) ?></div>
+                <div class="col-md-3">Rating: <?= Security::e((string) $item['rating']) ?></div>
             </div>
         </section>
     </div>

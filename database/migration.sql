@@ -43,12 +43,21 @@ CREATE TABLE counters (
   seq INT UNSIGNED NOT NULL DEFAULT 0
 ) ENGINE=InnoDB;
 
+CREATE TABLE branches (
+  id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(120) NOT NULL UNIQUE,
+  is_active TINYINT(1) NOT NULL DEFAULT 1,
+  created_at DATETIME NOT NULL,
+  updated_at DATETIME NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 CREATE TABLE feedback (
   id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
   ticket_number INT UNSIGNED NOT NULL UNIQUE,
   name VARCHAR(120) NULL,
   email VARCHAR(190) NULL,
   phone VARCHAR(50) NULL,
+  branch_id INT UNSIGNED NULL,
   category ENUM('Food Quality','Service','Ambiance','Cleanliness','Pricing','Menu','Value','Other') NOT NULL DEFAULT 'Other',
   type ENUM('compliment','suggestion','complaint') NOT NULL DEFAULT 'suggestion',
   rating TINYINT UNSIGNED NULL,
@@ -71,6 +80,7 @@ CREATE TABLE feedback (
   INDEX idx_feedback_category (category),
   INDEX idx_feedback_type (type),
   INDEX idx_feedback_priority (priority),
+  INDEX idx_feedback_branch (branch_id),
   FULLTEXT INDEX ft_feedback_search (message, name, email)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 

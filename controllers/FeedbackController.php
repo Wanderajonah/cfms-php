@@ -6,7 +6,10 @@ final class FeedbackController
 {
     public function publicForm(): void
     {
-        View::render('feedback/public_form', ['title' => 'Submit Feedback'], 'public');
+        View::render('feedback/public_form', [
+            'title' => 'Submit Feedback',
+            'branches' => (new Branch())->list(),
+        ], 'public');
     }
 
     public function publicCreate(): void
@@ -109,7 +112,31 @@ final class FeedbackController
         }
         $page = max(1, (int) ($filters['page'] ?? 1));
         $paginated = (new Feedback())->paginate($filters, $page, 10, (string) ($_GET['sort'] ?? '-createdAt'));
-        View::render('feedback/index', ['title' => 'Feedback', 'data' => $paginated, 'filters' => $filters]);
+        View::render('feedback/index', [
+            'title' => 'Feedback',
+            'data' => $paginated,
+            'filters' => $filters,
+            'branches' => (new Branch())->list(),
+        ]);
+    }
+
+    public function complaints(): void
+    {
+        Auth::require();
+        $filters = $_GET;
+        $filters['type'] = 'complaint';
+        $user = Auth::user();
+        if ($user && $user['role_slug'] !== 'admin') {
+            $filters['assignedTo'] = $user['email'];
+        }
+        $page = max(1, (int) ($filters['page'] ?? 1));
+        $paginated = (new Feedback())->paginate($filters, $page, 10, (string) ($_GET['sort'] ?? '-createdAt'));
+        View::render('complaints/index', [
+            'title' => 'Complaints',
+            'data' => $paginated,
+            'filters' => $filters,
+            'branches' => (new Branch())->list(),
+        ]);
     }
 
     public function show(int $id): void

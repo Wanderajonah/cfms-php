@@ -140,7 +140,7 @@
             <a href="/our-menus" class="fresh-button">VIEW DRINKS</a>
         </div>
         <div class="fresh-image">
-            <img src="https://images.unsplash.com/photo-1544145945-f90425340c7e?w=600&h=400&fit=crop" alt="Fresh Drinks">
+            <img src="/assets/uploads/restaurant/download.jpg" alt="Fresh Drinks">
         </div>
     </div>
 </section>
@@ -148,31 +148,73 @@
 <section class="features-section">
     <div class="standard_wrapper">
         <div class="section-header">
-            <h6 class="section-subtitle">Why Choose Us</h6>
-            <h2 class="section-title">We Value Your Feedback</h2>
-            <p class="features-intro">Every review, rating, and comment helps us serve you better. Here's how your voice makes a difference.</p>
+            <h6 class="section-subtitle">How It Works</h6>
+            <h2 class="section-title">Share Your Feedback in 3 Easy Steps</h2>
         </div>
         <div class="features-grid">
             <div class="feature-card">
-                <div class="feature-icon"><i class="bi bi-lightning-charge"></i></div>
-                <h3>Quick & Easy</h3>
-                <p>Share your feedback in less than 2 minutes — no app download, no sign-up hassles.</p>
+                <div class="feature-icon"><i class="bi bi-1-circle"></i></div>
+                <h3>Step 1: Pick Your Topic</h3>
+                <p>Tell us if it\'s a compliment, a suggestion, or a complaint — and how important it is to you.</p>
             </div>
             <div class="feature-card">
-                <div class="feature-icon"><i class="bi bi-megaphone"></i></div>
-                <h3>Be Heard</h3>
-                <p>Every response is read by our management team and drives real change across all our branches.</p>
+                <div class="feature-icon"><i class="bi bi-2-circle"></i></div>
+                <h3>Step 2: Write Your Message</h3>
+                <p>Share your experience in your own words. Add a rating, and upload a photo if you like.</p>
             </div>
             <div class="feature-card">
-                <div class="feature-icon"><i class="bi bi-bar-chart-line"></i></div>
-                <h3>See Results</h3>
-                <p>We publish improvements based on your input — from menu changes to service upgrades.</p>
+                <div class="feature-icon"><i class="bi bi-3-circle"></i></div>
+                <h3>Step 3: Submit & Track</h3>
+                <p>Hit submit and use your reference number to follow the status until it\'s resolved.</p>
             </div>
         </div>
     </div>
 </section>
 
 
+
+<section class="service-section">
+    <div class="service-content">
+        <div class="service-kicker-row">
+            <span class="service-kicker-line"></span>
+            <span class="service-kicker">OUR SERVICE PROMISE</span>
+            <span class="service-kicker-line"></span>
+        </div>
+        <h2 class="service-title">Warm Service, Every Single Visit</h2>
+        <p class="service-desc">Our waitresses do more than take orders &mdash; they set the tone for your whole meal. From the moment you sit down to the last refill, here&rsquo;s what we hold ourselves to:</p>
+        <div class="service-points">
+            <div class="service-point">
+                <span class="service-num">01</span>
+                <div class="service-point-body">
+                    <h4>A Warm Welcome</h4>
+                    <p>Greeted at the door and seated in under a minute &mdash; every time, no matter how busy we get.</p>
+                </div>
+            </div>
+            <div class="service-point">
+                <span class="service-num">02</span>
+                <div class="service-point-body">
+                    <h4>Honest Recommendations</h4>
+                    <p>From the chef&rsquo;s special to today&rsquo;s freshest juice, our team knows the menu and loves to guide you.</p>
+                </div>
+            </div>
+            <div class="service-point">
+                <span class="service-num">03</span>
+                <div class="service-point-body">
+                    <h4>Never an Empty Cup</h4>
+                    <p>Refills checked without hovering, questions answered with a smile, and your table never left waiting.</p>
+                </div>
+            </div>
+        </div>
+        <a href="/feedback/submit" class="service-button">Share Your Experience</a>
+    </div>
+    <div class="service-photo">
+        <img src="/assets/uploads/restaurant/waitress.jpg" alt="A waitress at Cafe Javas">
+        <div class="service-badge">
+            <i class="bi bi-people-fill"></i>
+            <span>Certified<br>Service Team</span>
+        </div>
+    </div>
+</section>
 
 <section class="subscribe-section">
     <div class="standard_wrapper">

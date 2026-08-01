@@ -199,7 +199,7 @@ document.addEventListener('DOMContentLoaded', function () {
   var animSections = document.querySelectorAll(
     '.hero-section, .beef-feature, .quote-banner, .burgers-section, .grand-menu-section, .split-section, .sauce-section, ' +
     '.fresh-section, .features-section, .improvements-section, ' +
-    '.sunday-section, .subscribe-section, .about-story, .about-stats, ' +
+    '.service-section, .sunday-section, .subscribe-section, .about-story, .about-stats, ' +
     '.about-values, .menu-section, .form-section, .feedback-cta'
   );
 

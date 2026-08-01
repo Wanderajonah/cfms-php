@@ -24,6 +24,16 @@
             </div>
 
             <div class="form-row">
+                <label>Branch <span class="required">*</span></label>
+                <select name="branch_id" class="form-select" required>
+                    <option value="">Select a branch...</option>
+                    <?php foreach ($branches as $b): ?>
+                    <option value="<?= (int) $b['id'] ?>"><?= Security::e($b['name']) ?></option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
+
+            <div class="form-row">
                 <label>Category</label>
                 <select name="category" class="form-select">
                     <?php foreach (Feedback::CATEGORIES as $c): ?>

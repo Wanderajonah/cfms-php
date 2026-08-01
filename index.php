@@ -23,6 +23,7 @@ $router->post("/profile", [AuthController::class, "updateProfile"]);
 
 $router->get("/dashboard", [DashboardController::class, "index"]);
 $router->get("/inbox", [InboxController::class, "index"]);
+$router->get("/complaints", [FeedbackController::class, "complaints"]);
 $router->get("/customers", [CustomerController::class, "index"]);
 $router->get("/analytics", [AnalyticsController::class, "index"]);
 $router->get("/activity", [ActivityController::class, "index"]);

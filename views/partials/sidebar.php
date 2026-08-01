@@ -7,6 +7,7 @@
             <div class="nav-section-title">Main</div>
             <a class="nav-link <?= $path === '/dashboard' ? 'active' : '' ?>" href="/dashboard"><i class="bi bi-speedometer2"></i> Dashboard</a>
             <a class="nav-link <?= $is('/inbox') ? 'active' : '' ?>" href="/inbox"><i class="bi bi-inbox"></i> Inbox</a>
+            <a class="nav-link <?= $is('/complaints') ? 'active' : '' ?>" href="/complaints"><i class="bi bi-exclamation-triangle"></i> Complaints</a>
             <a class="nav-link <?= $is('/feedback') && !$is('/feedback/submit') && !$is('/feedback/track') ? 'active' : '' ?>" href="/feedback"><i class="bi bi-chat-square-text"></i> Feedback</a>
             <a class="nav-link <?= $is('/customers') ? 'active' : '' ?>" href="/customers"><i class="bi bi-people"></i> Customers</a>
 
