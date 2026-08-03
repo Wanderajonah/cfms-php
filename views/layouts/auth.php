@@ -22,6 +22,9 @@
         </div>
 
         <div class="auth-brand-center">
+            <div class="auth-brand-image-wrap">
+                <img src="/assets/uploads/restaurant/login-cover.jpg" alt="Cafe Javas" class="auth-brand-image">
+            </div>
             <h2 class="auth-brand-title">Customer Feedback</h2>
             <p class="auth-brand-desc">Collect, track, and respond to customer feedback to deliver exceptional dining experiences.</p>
         </div>

@@ -33,6 +33,7 @@
 .auth-mobile-brand p{font-size:13px;color:var(--text-muted);margin:4px 0 0}
 .auth-form-card{width:min(420px,100%)}
 .auth-form-header{text-align:center;margin-bottom:32px}
+.auth-form-avatar{width:64px;height:64px;object-fit:contain;margin:0 auto 6px;display:block}
 .auth-form-header h1{font-family:var(--font-heading);font-size:28px;font-weight:800;color:var(--text-dark);margin:0 0 6px}
 .auth-form-header p{font-size:14px;color:var(--text-muted);margin:0}
 .auth-field{margin-bottom:22px}

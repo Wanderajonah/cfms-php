@@ -8,6 +8,7 @@
 
 <div class="auth-form-card">
     <div class="auth-form-header">
+        <img src="/assets/uploads/restaurant/logo-dark.png" alt="Cafe Javas" class="auth-form-avatar">
         <h1>Welcome back</h1>
         <p>Sign in to your feedback management portal</p>
     </div>

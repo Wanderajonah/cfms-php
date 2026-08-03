@@ -73,6 +73,20 @@ SELECT 'staff@cafejavas.test', 'Front Desk Staff', r.id, '$2y$12$nLqkC5G86c0RR8P
 FROM roles r WHERE r.slug = 'staff'
 ON DUPLICATE KEY UPDATE email = email;
 
+-- Top customer staff accounts: lastname.firstname@cj.com, password: password
+INSERT INTO users (email, name, role_id, password_hash, is_active, created_at, updated_at)
+SELECT 'baguma.jessy@cj.com', 'Baguma Jessy Smith', r.id, '$2y$12$qT34GAW7uDPdEVTBBtvGquLo19LzKhoXOMi60pjxAx7n9Qf9ByYtG', 1, NOW(), NOW() FROM roles r WHERE r.slug = 'staff' ON DUPLICATE KEY UPDATE email = email;
+INSERT INTO users (email, name, role_id, password_hash, is_active, created_at, updated_at)
+SELECT 'namusisi.victoria@cj.com', 'Namusisi Victoria Anderson', r.id, '$2y$12$qT34GAW7uDPdEVTBBtvGquLo19LzKhoXOMi60pjxAx7n9Qf9ByYtG', 1, NOW(), NOW() FROM roles r WHERE r.slug = 'staff' ON DUPLICATE KEY UPDATE email = email;
+INSERT INTO users (email, name, role_id, password_hash, is_active, created_at, updated_at)
+SELECT 'tumugonza.gloria@cj.com', 'Tumugonza Gloria', r.id, '$2y$12$qT34GAW7uDPdEVTBBtvGquLo19LzKhoXOMi60pjxAx7n9Qf9ByYtG', 1, NOW(), NOW() FROM roles r WHERE r.slug = 'staff' ON DUPLICATE KEY UPDATE email = email;
+INSERT INTO users (email, name, role_id, password_hash, is_active, created_at, updated_at)
+SELECT 'hasahya.samalie@cj.com', 'Hasahya Samalie Suzan', r.id, '$2y$12$qT34GAW7uDPdEVTBBtvGquLo19LzKhoXOMi60pjxAx7n9Qf9ByYtG', 1, NOW(), NOW() FROM roles r WHERE r.slug = 'staff' ON DUPLICATE KEY UPDATE email = email;
+INSERT INTO users (email, name, role_id, password_hash, is_active, created_at, updated_at)
+SELECT 'masengere.owen@cj.com', 'Masengere Owen', r.id, '$2y$12$qT34GAW7uDPdEVTBBtvGquLo19LzKhoXOMi60pjxAx7n9Qf9ByYtG', 1, NOW(), NOW() FROM roles r WHERE r.slug = 'staff' ON DUPLICATE KEY UPDATE email = email;
+INSERT INTO users (email, name, role_id, password_hash, is_active, created_at, updated_at)
+SELECT 'kajimu.pretty@cj.com', 'Kajimu Pretty', r.id, '$2y$12$qT34GAW7uDPdEVTBBtvGquLo19LzKhoXOMi60pjxAx7n9Qf9ByYtG', 1, NOW(), NOW() FROM roles r WHERE r.slug = 'staff' ON DUPLICATE KEY UPDATE email = email;
+
 -- Generated 673 feedback records spanning Jan 1 2026 – Jul 28 2026 (Ugandan context)
 
 INSERT INTO counters (name, seq) VALUES ('feedback', 673)

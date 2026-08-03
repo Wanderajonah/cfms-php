@@ -41,6 +41,15 @@ php -S 127.0.0.1:8080 -t customer-feedback-system
 - Staff: `staff@cafejavas.test`
 - Password: `password`
 
+Staff accounts for the top customers (password for all: `password`):
+
+- `baguma.jessy@cj.com` — Baguma Jessy Smith
+- `namusisi.victoria@cj.com` — Namusisi Victoria Anderson
+- `tumugonza.gloria@cj.com` — Tumugonza Gloria
+- `hasahya.samalie@cj.com` — Hasahya Samalie Suzan
+- `masengere.owen@cj.com` — Masengere Owen
+- `kajimu.pretty@cj.com` — Kajimu Pretty
+
 ## API Notes
 
 The JSON API mirrors the Express route names. Browser forms use PHP sessions and CSRF tokens. API login returns a bearer token backed by the remember-token column.

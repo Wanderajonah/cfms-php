@@ -82,6 +82,17 @@ This extracts `$data` into scope, captures the output buffer, then wraps it with
 | Admin | `admin@cafejavas.test` | `password` |
 | Staff | `staff@cafejavas.test` | `password` |
 
+Staff accounts seeded for the top customers (`lastname.firstname@cj.com`, password `password`):
+
+| Name | Email |
+|------|-------|
+| Baguma Jessy Smith | `baguma.jessy@cj.com` |
+| Namusisi Victoria Anderson | `namusisi.victoria@cj.com` |
+| Tumugonza Gloria | `tumugonza.gloria@cj.com` |
+| Hasahya Samalie Suzan | `hasahya.samalie@cj.com` |
+| Masengere Owen | `masengere.owen@cj.com` |
+| Kajimu Pretty | `kajimu.pretty@cj.com` |
+
 The seed data (673 feedback records spanning Jan–Jul 2026, Ugandan context) is in `database/seed.sql`.
 
 ---
