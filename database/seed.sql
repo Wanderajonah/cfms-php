@@ -38,6 +38,16 @@ INSERT INTO settings (setting_key, setting_value, updated_at) VALUES
 ('logo', '', NOW())
 ON DUPLICATE KEY UPDATE setting_value = VALUES(setting_value), updated_at = NOW();
 
+INSERT INTO branches (name, is_active, created_at, updated_at) VALUES
+('Kira Road', 1, NOW(), NOW()),
+('Kampala Boulevard (Kampala Road)', 1, NOW(), NOW()),
+('Bombo Road', 1, NOW(), NOW()),
+('Oasis Mall', 1, NOW(), NOW()),
+('Nakawa', 1, NOW(), NOW()),
+('Namirembe', 1, NOW(), NOW()),
+('Lugogo', 1, NOW(), NOW())
+ON DUPLICATE KEY UPDATE is_active = 1;
+
 INSERT INTO users (email, name, role_id, password_hash, is_active, created_at, updated_at)
 SELECT 'admin@cafejavas.test', 'System Administrator', r.id, '$2y$12$nLqkC5G86c0RR8PQT7dkcucsqJHiwtRXrqsN1W0R2IYe9exmpz66S', 1, NOW(), NOW()
 FROM roles r WHERE r.slug = 'admin'
