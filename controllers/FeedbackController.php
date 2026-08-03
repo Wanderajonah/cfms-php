@@ -21,7 +21,10 @@ final class FeedbackController
 
             $this->autoRespond((int) $created['id'], $created);
 
-            Flash::success('Thank you. Your ticket number is #' . $created['ticketNumber'] . '. Use it with your phone number to track your feedback.');
+            $_SESSION['_feedback_thanks'] = [
+                'ticket' => (int) $created['ticketNumber'],
+                'name' => trim((string) ($created['name'] ?? '')),
+            ];
             Response::redirect('/');
         } catch (Throwable $e) {
             Flash::error($e->getMessage());

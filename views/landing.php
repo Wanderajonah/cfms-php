@@ -7,14 +7,6 @@
             <h6 class="hero-subtitle animate-text-reveal">Taste The</h6>
             <h1 class="hero-title animate-text-reveal" style="animation-delay: 0.2s;">Difference</h1>
             <p class="hero-desc">Smoked brisket, tender ribs, smoked sausage, bacon & cheddar with lettuce, tomato, house BBQ & ranch.</p>
-            <div class="hero-sauce">
-                <span>Choose Sauce</span>
-                <div class="sauce-selector">
-                    <span class="sauce-option active">Original</span>
-                    <span class="sauce-option">Spicy</span>
-                    <span class="sauce-option">BBQ</span>
-                </div>
-            </div>
             <div class="hero-buttons">
                 <a href="/our-menus" class="button-primary">View Our Menu</a>
                 <a href="/feedback/submit" class="button-secondary">Give Feedback</a>
@@ -101,7 +93,7 @@
             <div class="block-overline">ORDER</div>
             <h3 class="block-headline">DELIVERY</h3>
             <p>Fast lunch, office treats, family dinner, or a coffee run. Tell us what went right and what should improve after every order.</p>
-            <a href="/feedback/submit" class="button-primary button-dark">ORDER ONLINE</a>
+            <a href="/order-online" class="button-primary button-dark">ORDER ONLINE</a>
         </div>
     </div>
 </section>
@@ -219,12 +211,20 @@
 <section class="subscribe-section">
     <div class="standard_wrapper">
         <div class="subscribe-content">
+            <span class="subscribe-overline">Newsletter</span>
             <h2>Stay in touch</h2>
-            <p>Subscribe for Cafe Javas updates, fresh offers, and guest experience news.</p>
-            <form class="subscribe-form">
-                <input type="email" placeholder="Your email address" required>
-                <button type="submit">Subscribe</button>
+            <p>Get the latest Cafe Javas updates, exclusive offers, and guest experience news straight to your inbox.</p>
+            <form class="subscribe-form" id="subscribeForm">
+                <div class="subscribe-field">
+                    <i class="bi bi-envelope"></i>
+                    <input type="email" placeholder="Enter your email address" aria-label="Email address" required>
+                </div>
+                <button type="submit">
+                    <span>Subscribe</span>
+                    <i class="bi bi-arrow-right"></i>
+                </button>
             </form>
+            <p class="subscribe-note"><i class="bi bi-shield-check"></i> No spam, ever. Unsubscribe anytime.</p>
         </div>
     </div>
 </section>

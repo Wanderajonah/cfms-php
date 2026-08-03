@@ -182,3 +182,36 @@ CREATE TABLE attachments (
   CONSTRAINT fk_attachments_feedback FOREIGN KEY (feedback_id) REFERENCES feedback(id) ON DELETE CASCADE,
   CONSTRAINT fk_attachments_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL
 ) ENGINE=InnoDB;
+
+CREATE TABLE menu_items (
+  id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(120) NOT NULL,
+  description TEXT NULL,
+  price INT UNSIGNED NOT NULL DEFAULT 0,
+  category VARCHAR(60) NOT NULL DEFAULT 'Other',
+  image_url VARCHAR(255) NULL,
+  is_active TINYINT(1) NOT NULL DEFAULT 1,
+  created_at DATETIME NOT NULL,
+  updated_at DATETIME NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE orders (
+  id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  order_number INT UNSIGNED NOT NULL UNIQUE,
+  customer_name VARCHAR(120) NOT NULL,
+  phone VARCHAR(50) NOT NULL,
+  email VARCHAR(190) NULL,
+  branch_id INT UNSIGNED NULL,
+  order_type ENUM('delivery','pickup') NOT NULL DEFAULT 'delivery',
+  delivery_address TEXT NULL,
+  subtotal INT UNSIGNED NOT NULL DEFAULT 0,
+  delivery_fee INT UNSIGNED NOT NULL DEFAULT 0,
+  total INT UNSIGNED NOT NULL DEFAULT 0,
+  status ENUM('pending','confirmed','preparing','ready','completed','cancelled') NOT NULL DEFAULT 'pending',
+  payment_method ENUM('mtn_momo','airtel_money','cash') NOT NULL DEFAULT 'cash',
+  payment_phone VARCHAR(50) NULL,
+  notes TEXT NULL,
+  items_json MEDIUMTEXT NULL,
+  created_at DATETIME NOT NULL,
+  CONSTRAINT fk_orders_branch FOREIGN KEY (branch_id) REFERENCES branches(id) ON DELETE SET NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

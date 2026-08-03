@@ -35,7 +35,8 @@ INSERT INTO settings (setting_key, setting_value, updated_at) VALUES
 ('system_name', 'Cafe Javas Feedback Management', NOW()),
 ('email_from', 'noreply@cafejavas.example', NOW()),
 ('response_threshold_hours', '24', NOW()),
-('logo', '', NOW())
+('logo', '', NOW()),
+('delivery_fee', '5000', NOW())
 ON DUPLICATE KEY UPDATE setting_value = VALUES(setting_value), updated_at = NOW();
 
 INSERT INTO branches (name, is_active, created_at, updated_at) VALUES
@@ -47,6 +48,20 @@ INSERT INTO branches (name, is_active, created_at, updated_at) VALUES
 ('Namirembe', 1, NOW(), NOW()),
 ('Lugogo', 1, NOW(), NOW())
 ON DUPLICATE KEY UPDATE is_active = 1;
+
+INSERT INTO menu_items (name, description, price, category, image_url, is_active, created_at, updated_at) VALUES
+('Pancake Stack', 'Fluffy buttermilk pancakes drizzled with maple syrup, fresh berries, and a dusting of icing sugar.', 18000, 'Breakfast', 'https://images.unsplash.com/photo-1550547660-d9450f859349?w=400&h=400&fit=crop', 1, NOW(), NOW()),
+('Full Breakfast', 'Eggs any style, bacon, sausage, grilled tomatoes, mushrooms, and toast — the classic start.', 28000, 'Breakfast', 'https://images.unsplash.com/photo-1525351484163-7529414344d8?w=400&h=400&fit=crop', 1, NOW(), NOW()),
+('Omelette Special', 'Three-egg omelette stuffed with cheese, peppers, onions, and your choice of ham or mushrooms.', 22000, 'Breakfast', 'https://images.unsplash.com/photo-1510693206972-df098062cb71?w=400&h=400&fit=crop', 1, NOW(), NOW()),
+('Flame-Grilled Chicken', 'Marinated chicken breast flame-grilled to perfection, served with sauteed vegetables and your choice of side.', 35000, 'Big Meals', 'https://images.unsplash.com/photo-1532550907401-a500c9a57435?w=400&h=400&fit=crop', 1, NOW(), NOW()),
+('Beef Steak', 'Tender beef steak grilled to your liking, served with peppercorn sauce, chips, and seasonal vegetables.', 45000, 'Big Meals', 'https://images.unsplash.com/photo-1544025162-d76694265947?w=400&h=400&fit=crop', 1, NOW(), NOW()),
+('Fish & Chips', 'Beer-battered cod fillet served with hand-cut chips, mushy peas, and tartar sauce.', 30000, 'Big Meals', 'https://images.unsplash.com/photo-1574484284002-952d92456975?w=400&h=400&fit=crop', 1, NOW(), NOW()),
+('Signature Coffee', 'Freshly brewed Cafe Javas signature blend — espresso, americano, latte, cappuccino, or flat white.', 10000, 'Drinks', 'https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=400&h=400&fit=crop', 1, NOW(), NOW()),
+('Cold-Pressed Juice', 'Freshly pressed tropical blend — choose from orange, pineapple, passion fruit, or mixed berry.', 12000, 'Drinks', 'https://images.unsplash.com/photo-1544145945-f90425340c7e?w=400&h=400&fit=crop', 1, NOW(), NOW()),
+('Handmade Milkshake', 'Thick and creamy — vanilla, chocolate, strawberry, or our special banana caramel.', 15000, 'Drinks', 'https://images.unsplash.com/photo-1572490122747-3968b75cc699?w=400&h=400&fit=crop', 1, NOW(), NOW()),
+('Ice Cream Sundae', 'Three scoops of premium vanilla ice cream topped with chocolate sauce, nuts, and a cherry.', 12000, 'Desserts', 'https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=400&h=400&fit=crop', 1, NOW(), NOW()),
+('Chocolate Lava Cake', 'Warm chocolate cake with a molten centre, served with vanilla ice cream and fresh berries.', 18000, 'Desserts', 'https://images.unsplash.com/photo-1551024601-bec78aea704b?w=400&h=400&fit=crop', 1, NOW(), NOW())
+ON DUPLICATE KEY UPDATE description = VALUES(description), price = VALUES(price), category = VALUES(category), is_active = 1;
 
 INSERT INTO users (email, name, role_id, password_hash, is_active, created_at, updated_at)
 SELECT 'admin@cafejavas.test', 'System Administrator', r.id, '$2y$12$nLqkC5G86c0RR8PQT7dkcucsqJHiwtRXrqsN1W0R2IYe9exmpz66S', 1, NOW(), NOW()
