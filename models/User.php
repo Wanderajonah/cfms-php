@@ -59,18 +59,63 @@ final class User extends BaseModel
         return $this->fetchAll($sql, $params);
     }
 
+    public function findStaffByCategory(string $category): ?string
+    {
+        $email = $this->fetchColumn(
+            'SELECT u.email FROM users u JOIN roles r ON r.id = u.role_id
+             WHERE r.slug = "staff" AND u.is_active = 1 AND u.category = :category
+             ORDER BY u.id ASC LIMIT 1',
+            ['category' => $category]
+        );
+        return $email ?: null;
+    }
+
+    public function listWithAssignments(array $filters = []): array
+    {
+        $users = $this->list($filters);
+        $stats = $this->fetchAll(
+            'SELECT assigned_to,
+                    COUNT(*) AS total,
+                    SUM(status = "pending") AS pending,
+                    SUM(status = "in-progress") AS in_progress,
+                    SUM(status = "resolved") AS resolved,
+                    SUM(status = "escalated") AS escalated
+             FROM feedback
+             WHERE assigned_to IS NOT NULL AND assigned_to <> ""
+             GROUP BY assigned_to'
+        );
+        $map = [];
+        foreach ($stats as $s) {
+            $map[$s['assigned_to']] = $s;
+        }
+        foreach ($users as &$u) {
+            $s = $map[$u['email']] ?? null;
+            $u['assignmentStats'] = $s ? [
+                'total' => (int) $s['total'],
+                'pending' => (int) $s['pending'],
+                'inProgress' => (int) $s['in_progress'],
+                'resolved' => (int) $s['resolved'],
+                'escalated' => (int) $s['escalated'],
+            ] : ['total' => 0, 'pending' => 0, 'inProgress' => 0, 'resolved' => 0, 'escalated' => 0];
+        }
+        unset($u);
+        return $users;
+    }
+
     public function create(array $data): array
     {
         $roleSlug = ($data['role'] ?? 'staff') === 'admin' ? 'admin' : 'staff';
         $roleId = $this->roleId($roleSlug);
+        $category = $roleSlug === 'staff' && !empty($data['category']) ? trim((string) $data['category']) : null;
         $id = $this->insert(
-            'INSERT INTO users (email, name, role_id, password_hash, is_active, created_at, updated_at)
-             VALUES (:email, :name, :role_id, :password_hash, 1, :created_at, :updated_at)',
+            'INSERT INTO users (email, name, role_id, password_hash, category, is_active, created_at, updated_at)
+             VALUES (:email, :name, :role_id, :password_hash, :category, 1, :created_at, :updated_at)',
             [
                 'email' => strtolower(trim((string) $data['email'])),
                 'name' => trim((string) ($data['name'] ?? '')) ?: null,
                 'role_id' => $roleId,
                 'password_hash' => password_hash((string) $data['password'], PASSWORD_DEFAULT),
+                'category' => $category,
                 'created_at' => $this->now(),
                 'updated_at' => $this->now(),
             ]
@@ -99,6 +144,11 @@ final class User extends BaseModel
         if (!empty($data['password'])) {
             $fields[] = 'password_hash = :password_hash';
             $params['password_hash'] = password_hash($data['password'], PASSWORD_DEFAULT);
+        }
+        if (array_key_exists('category', $data)) {
+            $newRole = !empty($data['role']) ? $data['role'] : $this->fetchColumn('SELECT slug FROM roles WHERE id = (SELECT role_id FROM users WHERE id = :uid)', ['uid' => $id]);
+            $fields[] = 'category = :category';
+            $params['category'] = $newRole === 'staff' ? ($data['category'] ?: null) : null;
         }
         if (!$fields) {
             return;

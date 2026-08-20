@@ -298,6 +298,19 @@ document.addEventListener('DOMContentLoaded', function () {
     document.querySelector('.sidebar')?.classList.toggle('open');
   });
 
+  var editUserForm = document.getElementById('editUserForm');
+  document.querySelectorAll('.edit-user-btn').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      if (!editUserForm) return;
+      editUserForm.action = '/users/' + btn.dataset.id;
+      document.getElementById('editName').value = btn.dataset.name || '';
+      document.getElementById('editEmail').value = btn.dataset.email || '';
+      document.getElementById('editRole').value = btn.dataset.role || 'staff';
+      document.getElementById('editCategory').value = btn.dataset.category || '';
+      document.getElementById('editActive').checked = btn.dataset.active === '1';
+    });
+  });
+
   var monthly = document.getElementById('monthlyChart');
   if (monthly && typeof Chart !== 'undefined') {
     var rows = JSON.parse(monthly.dataset.chart || '[]');

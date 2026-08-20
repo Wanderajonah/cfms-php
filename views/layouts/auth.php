@@ -12,12 +12,10 @@
 <div class="auth-split">
     <div class="auth-brand-panel">
         <div class="auth-brand-header">
-            <div class="auth-brand-icon">
-                <i class="bi bi-cup-hot-fill"></i>
-            </div>
-            <div>
-                <p class="auth-brand-name">Cafe Javas</p>
-                <p class="auth-brand-location">Kampala, Uganda</p>
+            <img src="/assets/uploads/restaurant/logo-white.png" alt="Cafe Javas" class="auth-brand-logo">
+            <div class="auth-brand-text">
+                <p class="auth-brand-name">Customer Feedback</p>
+                <p class="auth-brand-sub">Management System</p>
             </div>
         </div>
 
@@ -25,7 +23,6 @@
             <div class="auth-brand-image-wrap">
                 <img src="/assets/uploads/restaurant/login-cover.jpg" alt="Cafe Javas" class="auth-brand-image">
             </div>
-            <h2 class="auth-brand-title">Customer Feedback</h2>
             <p class="auth-brand-desc">Collect, track, and respond to customer feedback to deliver exceptional dining experiences.</p>
         </div>
 

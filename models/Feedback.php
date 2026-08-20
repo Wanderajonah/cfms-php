@@ -24,8 +24,10 @@ final class Feedback extends BaseModel
         $total = (int) $this->fetchColumn("SELECT COUNT(*) FROM feedback $where", $params);
 
         $items = $this->fetchAll(
-            "SELECT f.*, b.name AS branch_name
-             FROM feedback f LEFT JOIN branches b ON b.id = f.branch_id
+            "SELECT f.*, b.name AS branch_name, ua.name AS assigned_name
+             FROM feedback f
+             LEFT JOIN branches b ON b.id = f.branch_id
+             LEFT JOIN users ua ON ua.email = f.assigned_to
              $where ORDER BY $order LIMIT :limit OFFSET :offset",
             $params + ['limit' => $limit, 'offset' => $offset]
         );
@@ -42,8 +44,10 @@ final class Feedback extends BaseModel
     public function find(int $id): ?array
     {
         $row = $this->fetch(
-            'SELECT f.*, b.name AS branch_name
-             FROM feedback f LEFT JOIN branches b ON b.id = f.branch_id
+            'SELECT f.*, b.name AS branch_name, ua.name AS assigned_name
+             FROM feedback f
+             LEFT JOIN branches b ON b.id = f.branch_id
+             LEFT JOIN users ua ON ua.email = f.assigned_to
              WHERE f.id = :id LIMIT 1',
             ['id' => $id]
         );
@@ -65,6 +69,10 @@ final class Feedback extends BaseModel
         $clean = $this->clean($data);
         if ($clean['message'] === '') {
             throw new InvalidArgumentException('Feedback message is required');
+        }
+
+        if (empty($clean['assigned_to'])) {
+            $clean['assigned_to'] = (new User())->findStaffByCategory((string) $clean['category']);
         }
 
         $id = $this->insert(
@@ -298,26 +306,6 @@ final class Feedback extends BaseModel
         );
     }
 
-    public function customers(string $search = ''): array
-    {
-        $sql = 'SELECT f.name, f.email, f.phone, COUNT(*) AS feedback_count, MAX(f.created_at) AS last_feedback,
-                       (SELECT b.name FROM branches b
-                        JOIN feedback fb ON fb.branch_id = b.id
-                        WHERE fb.name = f.name AND (fb.email = f.email OR fb.email IS NULL)
-                        GROUP BY b.name ORDER BY COUNT(*) DESC LIMIT 1) AS branch
-                FROM feedback f WHERE f.name IS NOT NULL';
-        $params = [];
-        if ($search !== '') {
-            $sql .= ' AND (f.name LIKE :search OR f.email LIKE :search2 OR f.phone LIKE :search3)';
-            $like = '%' . $search . '%';
-            $params['search'] = $like;
-            $params['search2'] = $like;
-            $params['search3'] = $like;
-        }
-        $sql .= ' GROUP BY f.name, f.email, f.phone ORDER BY last_feedback DESC LIMIT 100';
-        return $this->fetchAll($sql, $params);
-    }
-
     public function adminNotifications(): array
     {
         $pending = (int) $this->fetchColumn("SELECT COUNT(*) FROM feedback WHERE type = 'complaint' AND status = 'pending'");
@@ -402,6 +390,7 @@ final class Feedback extends BaseModel
         $row['branchId'] = isset($row['branch_id']) && $row['branch_id'] !== null ? (int) $row['branch_id'] : null;
         $row['branchName'] = $row['branch_name'] ?? null;
         $row['assignedTo'] = $row['assigned_to'];
+        $row['assignedName'] = $row['assigned_name'] ?? null;
         $row['staffNotes'] = $row['staff_notes'];
         $row['escalationNote'] = $row['escalation_note'];
         $row['respondedAt'] = $row['responded_at'];

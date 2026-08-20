@@ -1,5 +1,5 @@
-CREATE DATABASE IF NOT EXISTS customer_feedback_system CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-USE customer_feedback_system;
+CREATE DATABASE IF NOT EXISTS cfms CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+USE cfms
 
 CREATE TABLE roles (
   id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
@@ -30,6 +30,7 @@ CREATE TABLE users (
   password_hash VARCHAR(255) NOT NULL,
   is_active TINYINT(1) NOT NULL DEFAULT 1,
   avatar_url VARCHAR(255) NULL,
+  category VARCHAR(100) NULL,
   remember_token CHAR(64) NULL,
   created_at DATETIME NOT NULL,
   updated_at DATETIME NOT NULL,

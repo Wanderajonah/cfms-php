@@ -17,19 +17,20 @@
 $config = require __DIR__ . '/config.php';
 $db = $config['db'];
 
-$conn = mysqli_connect(
-    $db['host'],     // where MySQL lives (e.g. 127.0.0.1)
-    $db['username'], // username (e.g. root)
-    $db['password'], // password (e.g. empty)
-    $db['database'], // database name (e.g. customer_feedback_system)
-    (int) $db['port'] // port number (e.g. 3307)
-);
+try {
+    $conn = mysqli_connect(
+        $db['host'],     // where MySQL lives (e.g. 127.0.0.1)
+        $db['username'], // username (e.g. root)
+        $db['password'], // password (e.g. empty)
+        $db['database'], // database name (e.g. customer_feedback_system)
+        (int) $db['port'] // port number (e.g. 3307)
+    );
 
-if (!$conn) {
-    die('Database connection failed: ' . mysqli_connect_error());
+    mysqli_set_charset($conn, $db['charset']);
+} catch (mysqli_sql_exception $e) {
+    // PHP 8.1+ throws instead of returning false on failure
+    die('Database connection failed: ' . $e->getMessage());
 }
-
-mysqli_set_charset($conn, $db['charset']);
 
 // Shortcut function — call db() anywhere to get the connection
 function db(): mysqli

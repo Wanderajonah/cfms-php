@@ -1,9 +1,7 @@
 <div class="auth-mobile-brand">
-    <div class="auth-mobile-icon">
-        <i class="bi bi-cup-hot-fill"></i>
-    </div>
+    <img src="/assets/uploads/restaurant/logo-dark.png" alt="Feedback Management System" class="auth-mobile-logo">
     <h1>Cafe Javas</h1>
-    <p>Customer Feedback Management Dashboard</p>
+    <p>Customer Feedback Management System</p>
 </div>
 
 <div class="auth-form-card">

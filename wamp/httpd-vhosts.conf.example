@@ -1,0 +1,26 @@
+# WAMP VirtualHost for Cafe Javas Feedback Management
+#
+# The app uses absolute URLs (e.g. /assets/, /login), so it MUST be served
+# from a domain root. Copy this snippet into:
+#   C:\wamp64\bin\apache\apacheX.Y.Z\conf\extra\httpd-vhosts.conf
+# and add to C:\Windows\System32\drivers\etc\hosts:
+#   127.0.0.1  cfms.test
+# Then restart all WAMP services.
+#
+# You can also do this from the WAMP tray icon:
+#   WAMP tray -> "Tools" -> "Virtual host" ... or use the phpMyAdmin wizard.
+
+<VirtualHost *:80>
+    ServerName cfms.test
+    ServerAlias localhost.cfms.test
+    DocumentRoot "C:/wamp64/www/customer-feedback-system"
+
+    <Directory "C:/wamp64/www/customer-feedback-system">
+        Options Indexes FollowSymLinks MultiViews
+        AllowOverride All
+        Require all granted
+    </Directory>
+
+    ErrorLog "C:/wamp64/logs/cfms-error.log"
+    CustomLog "C:/wamp64/logs/cfms-access.log" common
+</VirtualHost>

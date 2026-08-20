@@ -1,7 +1,8 @@
 <?php $items = $data['items'] ?? $recent ?? []; ?>
+<?php $isAdmin = (Auth::user()['role_slug'] ?? '') === 'admin'; ?>
 <div class="table-responsive">
 <table class="table align-middle">
-    <thead><tr><th>Ticket</th><th>Customer</th><th>Branch</th><th>Category</th><th>Type</th><th>Status</th><th>Priority</th><th>Created</th><th></th></tr></thead>
+    <thead><tr><th>Ticket</th><th>Customer</th><th>Branch</th><th>Category</th><th>Type</th><?php if ($isAdmin): ?><th>Assigned To</th><?php endif; ?><th>Status</th><th>Priority</th><th>Created</th><th></th></tr></thead>
     <tbody>
     <?php foreach ($items as $item): ?>
         <tr>
@@ -10,6 +11,17 @@
             <td><?= Security::e($item['branchName'] ?? ($item['branch_name'] ?? '-')) ?></td>
             <td><?= Security::e($item['category']) ?></td>
             <td><?= Security::e($item['type']) ?></td>
+            <?php if ($isAdmin): ?>
+            <td>
+                <?php if ($item['assignedName']): ?>
+                    <strong><?= Security::e($item['assignedName']) ?></strong><div class="text-secondary small"><?= Security::e($item['assignedTo']) ?></div>
+                <?php elseif ($item['assignedTo']): ?>
+                    <?= Security::e($item['assignedTo']) ?>
+                <?php else: ?>
+                    <span class="text-secondary">Unassigned</span>
+                <?php endif; ?>
+            </td>
+            <?php endif; ?>
             <td><span class="badge status-<?= Security::e($item['status']) ?>"><?= Security::e($item['status']) ?></span></td>
             <td><span class="badge priority-<?= Security::e($item['priority']) ?>"><?= Security::e($item['priority']) ?></span></td>
             <td><?= Security::e(substr($item['createdAt'], 0, 10)) ?></td>

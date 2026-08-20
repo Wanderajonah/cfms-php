@@ -1,4 +1,4 @@
-USE customer_feedback_system;
+USE cfms
 
 INSERT INTO roles (name, slug) VALUES
 ('Administrator', 'admin'),
@@ -68,24 +68,24 @@ SELECT 'admin@cafejavas.test', 'System Administrator', r.id, '$2y$12$nLqkC5G86c0
 FROM roles r WHERE r.slug = 'admin'
 ON DUPLICATE KEY UPDATE email = email;
 
-INSERT INTO users (email, name, role_id, password_hash, is_active, created_at, updated_at)
-SELECT 'staff@cafejavas.test', 'Front Desk Staff', r.id, '$2y$12$nLqkC5G86c0RR8PQT7dkcucsqJHiwtRXrqsN1W0R2IYe9exmpz66S', 1, NOW(), NOW()
+INSERT INTO users (email, name, role_id, password_hash, category, is_active, created_at, updated_at)
+SELECT 'staff@cafejavas.test', 'Front Desk Staff', r.id, '$2y$12$nLqkC5G86c0RR8PQT7dkcucsqJHiwtRXrqsN1W0R2IYe9exmpz66S', 'Food Quality', 1, NOW(), NOW()
 FROM roles r WHERE r.slug = 'staff'
-ON DUPLICATE KEY UPDATE email = email;
+ON DUPLICATE KEY UPDATE email = email, category = VALUES(category);
 
 -- Top customer staff accounts: lastname.firstname@cj.com, password: password
-INSERT INTO users (email, name, role_id, password_hash, is_active, created_at, updated_at)
-SELECT 'baguma.jessy@cj.com', 'Baguma Jessy Smith', r.id, '$2y$12$qT34GAW7uDPdEVTBBtvGquLo19LzKhoXOMi60pjxAx7n9Qf9ByYtG', 1, NOW(), NOW() FROM roles r WHERE r.slug = 'staff' ON DUPLICATE KEY UPDATE email = email;
-INSERT INTO users (email, name, role_id, password_hash, is_active, created_at, updated_at)
-SELECT 'namusisi.victoria@cj.com', 'Namusisi Victoria Anderson', r.id, '$2y$12$qT34GAW7uDPdEVTBBtvGquLo19LzKhoXOMi60pjxAx7n9Qf9ByYtG', 1, NOW(), NOW() FROM roles r WHERE r.slug = 'staff' ON DUPLICATE KEY UPDATE email = email;
-INSERT INTO users (email, name, role_id, password_hash, is_active, created_at, updated_at)
-SELECT 'tumugonza.gloria@cj.com', 'Tumugonza Gloria', r.id, '$2y$12$qT34GAW7uDPdEVTBBtvGquLo19LzKhoXOMi60pjxAx7n9Qf9ByYtG', 1, NOW(), NOW() FROM roles r WHERE r.slug = 'staff' ON DUPLICATE KEY UPDATE email = email;
-INSERT INTO users (email, name, role_id, password_hash, is_active, created_at, updated_at)
-SELECT 'hasahya.samalie@cj.com', 'Hasahya Samalie Suzan', r.id, '$2y$12$qT34GAW7uDPdEVTBBtvGquLo19LzKhoXOMi60pjxAx7n9Qf9ByYtG', 1, NOW(), NOW() FROM roles r WHERE r.slug = 'staff' ON DUPLICATE KEY UPDATE email = email;
-INSERT INTO users (email, name, role_id, password_hash, is_active, created_at, updated_at)
-SELECT 'masengere.owen@cj.com', 'Masengere Owen', r.id, '$2y$12$qT34GAW7uDPdEVTBBtvGquLo19LzKhoXOMi60pjxAx7n9Qf9ByYtG', 1, NOW(), NOW() FROM roles r WHERE r.slug = 'staff' ON DUPLICATE KEY UPDATE email = email;
-INSERT INTO users (email, name, role_id, password_hash, is_active, created_at, updated_at)
-SELECT 'kajimu.pretty@cj.com', 'Kajimu Pretty', r.id, '$2y$12$qT34GAW7uDPdEVTBBtvGquLo19LzKhoXOMi60pjxAx7n9Qf9ByYtG', 1, NOW(), NOW() FROM roles r WHERE r.slug = 'staff' ON DUPLICATE KEY UPDATE email = email;
+INSERT INTO users (email, name, role_id, password_hash, category, is_active, created_at, updated_at)
+SELECT 'baguma.jessy@cj.com', 'Baguma Jessy Smith', r.id, '$2y$12$qT34GAW7uDPdEVTBBtvGquLo19LzKhoXOMi60pjxAx7n9Qf9ByYtG', 'Service', 1, NOW(), NOW() FROM roles r WHERE r.slug = 'staff' ON DUPLICATE KEY UPDATE email = email, category = VALUES(category);
+INSERT INTO users (email, name, role_id, password_hash, category, is_active, created_at, updated_at)
+SELECT 'namusisi.victoria@cj.com', 'Namusisi Victoria Anderson', r.id, '$2y$12$qT34GAW7uDPdEVTBBtvGquLo19LzKhoXOMi60pjxAx7n9Qf9ByYtG', 'Menu', 1, NOW(), NOW() FROM roles r WHERE r.slug = 'staff' ON DUPLICATE KEY UPDATE email = email, category = VALUES(category);
+INSERT INTO users (email, name, role_id, password_hash, category, is_active, created_at, updated_at)
+SELECT 'tumugonza.gloria@cj.com', 'Tumugonza Gloria', r.id, '$2y$12$qT34GAW7uDPdEVTBBtvGquLo19LzKhoXOMi60pjxAx7n9Qf9ByYtG', 'Cleanliness', 1, NOW(), NOW() FROM roles r WHERE r.slug = 'staff' ON DUPLICATE KEY UPDATE email = email, category = VALUES(category);
+INSERT INTO users (email, name, role_id, password_hash, category, is_active, created_at, updated_at)
+SELECT 'hasahya.samalie@cj.com', 'Hasahya Samalie Suzan', r.id, '$2y$12$qT34GAW7uDPdEVTBBtvGquLo19LzKhoXOMi60pjxAx7n9Qf9ByYtG', 'Ambiance', 1, NOW(), NOW() FROM roles r WHERE r.slug = 'staff' ON DUPLICATE KEY UPDATE email = email, category = VALUES(category);
+INSERT INTO users (email, name, role_id, password_hash, category, is_active, created_at, updated_at)
+SELECT 'masengere.owen@cj.com', 'Masengere Owen', r.id, '$2y$12$qT34GAW7uDPdEVTBBtvGquLo19LzKhoXOMi60pjxAx7n9Qf9ByYtG', 'Pricing', 1, NOW(), NOW() FROM roles r WHERE r.slug = 'staff' ON DUPLICATE KEY UPDATE email = email, category = VALUES(category);
+INSERT INTO users (email, name, role_id, password_hash, category, is_active, created_at, updated_at)
+SELECT 'kajimu.pretty@cj.com', 'Kajimu Pretty', r.id, '$2y$12$qT34GAW7uDPdEVTBBtvGquLo19LzKhoXOMi60pjxAx7n9Qf9ByYtG', 'Value', 1, NOW(), NOW() FROM roles r WHERE r.slug = 'staff' ON DUPLICATE KEY UPDATE email = email, category = VALUES(category);
 
 -- Generated 673 feedback records spanning Jan 1 2026 – Jul 28 2026 (Ugandan context)
 
@@ -980,5 +980,9 @@ INSERT INTO contacts (name, phone, email, notes, is_active, created_at, updated_
 ('Nakayenga Grace', '+256774262455', 'nakayengagrace.533f@example.com', 'Regular customer', 1, NOW(), NOW()),
 ('Nagawa Rose', '+256773105667', 'nagawarose.52d6@example.com', 'Regular customer', 1, NOW(), NOW()),
 ('Mukasa Vincent', '+256792916653', 'mukasavincent.8792@example.com', 'Regular customer', 1, NOW(), NOW());
+
+-- Staff members are not customers: anonymize any feedback left under a staff name
+UPDATE feedback SET name = NULL
+WHERE name IN (SELECT u.name FROM users u JOIN roles r ON r.id = u.role_id WHERE r.slug = 'staff' AND u.name IS NOT NULL);
 
 -- Seeded 673 feedback records with Ugandan customer data

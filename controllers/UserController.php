@@ -9,7 +9,7 @@ final class UserController
         Auth::requireRole('admin');
         View::render('users/index', [
             'title' => 'Users',
-            'users' => (new User())->list(['role' => $_GET['role'] ?? '', 'search' => $_GET['search'] ?? '']),
+            'users' => (new User())->listWithAssignments(['role' => $_GET['role'] ?? '', 'search' => $_GET['search'] ?? '']),
         ]);
     }
 
@@ -18,7 +18,13 @@ final class UserController
         Auth::requireRole('admin');
         Security::verifyCsrf();
         try {
-            $created = (new User())->create($_POST);
+            $created = (new User())->create([
+                'name' => $_POST['name'] ?? '',
+                'email' => $_POST['email'] ?? '',
+                'password' => $_POST['password'] ?? '',
+                'role' => $_POST['role'] ?? 'staff',
+                'category' => $_POST['category'] ?? '',
+            ]);
             (new AuditLog())->record(Auth::id(), 'create', 'users', (int) $created['id'], 'User created');
             Flash::success('User created.');
         } catch (Throwable $e) {
@@ -37,6 +43,7 @@ final class UserController
             'role' => $_POST['role'] ?? 'staff',
             'is_active' => isset($_POST['is_active']) ? 1 : 0,
             'password' => $_POST['password'] ?? '',
+            'category' => $_POST['category'] ?? '',
         ]);
         (new AuditLog())->record(Auth::id(), 'update', 'users', $id, 'User updated');
         Flash::success('User updated.');
