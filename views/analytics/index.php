@@ -74,6 +74,44 @@
     </div>
 </div>
 
+<?php if (!empty($staffAssignments)): ?>
+<div class="row g-4 mt-1">
+    <div class="col-xl-8">
+        <section class="panel">
+            <h2 class="h5 mb-3"><i class="bi bi-bar-chart me-2"></i>Staff Task Distribution</h2>
+            <canvas id="aStaffTasks" height="140"></canvas>
+        </section>
+    </div>
+    <div class="col-xl-4">
+        <section class="panel">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h2 class="h5 mb-0"><i class="bi bi-people me-2"></i>Staff Assignments</h2>
+                <a href="/users" class="btn btn-sm btn-outline-primary">Manage</a>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-sm small mb-0">
+                    <thead><tr><th>Staff</th><th>Total</th><th>Pending</th><th>Resolved</th><th></th></tr></thead>
+                    <tbody>
+                    <?php foreach ($staffAssignments as $u):
+                        $semail = $u['email'] ?? '';
+                        $stats = $u['assignmentStats'] ?? ['total' => 0, 'pending' => 0, 'inProgress' => 0, 'resolved' => 0, 'escalated' => 0];
+                    ?>
+                        <tr>
+                            <td><?= Security::e($u['name'] ?? $semail) ?></td>
+                            <td><span class="badge bg-primary"><?= $stats['total'] ?></span></td>
+                            <td><span class="badge bg-warning text-dark"><?= $stats['pending'] ?></span></td>
+                            <td><span class="badge bg-success"><?= $stats['resolved'] ?></span></td>
+                            <td><a href="/feedback?assignedTo=<?= urlencode($semail) ?>" class="btn btn-sm btn-outline-primary"><i class="bi bi-eye"></i></a></td>
+                        </tr>
+                    <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </div>
+</div>
+<?php endif; ?>
+
 <script>
 document.addEventListener('DOMContentLoaded',function(){
 if(typeof Chart==='undefined' && document.getElementById('aStatus')){
@@ -92,5 +130,7 @@ var rt=<?= json_encode($s['responseTrend'] ?? []) ?>;if(rt&&rt.length)c('aRespTr
 var da=<?= json_encode($s['daily']) ?>;if(da&&da.length)c('aDaily',{type:'line',data:{labels:da.map(function(d){return d.date}),datasets:[{label:'Total',data:da.map(function(d){return d.total}),borderColor:'#0f766e',backgroundColor:'rgba(15,118,110,.1)',fill:true,tension:.3,pointRadius:2},{label:'Resolved',data:da.map(function(d){return d.resolved}),borderColor:'#16a34a',backgroundColor:'rgba(22,163,74,.1)',fill:true,tension:.3,pointRadius:2}]},options:{responsive:true,plugins:{legend:{display:false}},scales:{x:{ticks:{font:{size:9}}}}}});
 var wd=<?= json_encode($s['weekdays'] ?? []) ?>;if(wd&&wd.length)c('aWeekday',{type:'bar',data:{labels:wd.map(function(d){return d.day.substring(0,3)}),datasets:[{data:wd.map(function(d){return d.count}),backgroundColor:'rgba(15,118,110,.7)',borderRadius:4}]},options:{responsive:true,plugins:{legend:{display:false}},scales:{y:{ticks:{stepSize:1}}}}});
 var hr=<?= json_encode($s['hours'] ?? []) ?>;if(hr&&hr.length)c('aHour',{type:'bar',data:{labels:hr.map(function(d){return d.hour+':00'}),datasets:[{data:hr.map(function(d){return d.count}),backgroundColor:'rgba(37,99,235,.6)',borderRadius:2}]},options:{responsive:true,plugins:{legend:{display:false}},scales:{y:{ticks:{stepSize:1}}}}});
+var staffData=<?= json_encode(array_map(fn($u)=>['name'=>$u['name']??'Unknown','stats'=>$u['assignmentStats']??['total'=>0,'pending'=>0,'inProgress'=>0,'resolved'=>0,'escalated'=>0]],array_values($staffAssignments))) ?>;
+if(staffData&&staffData.length)c('aStaffTasks',{type:'bar',data:{labels:staffData.map(function(d){return d.name}),datasets:[{label:'Pending',data:staffData.map(function(d){return d.stats.pending}),backgroundColor:'#d97706',borderRadius:3},{label:'In Progress',data:staffData.map(function(d){return d.stats.inProgress}),backgroundColor:'#2563eb',borderRadius:3},{label:'Resolved',data:staffData.map(function(d){return d.stats.resolved}),backgroundColor:'#16a34a',borderRadius:3},{label:'Escalated',data:staffData.map(function(d){return d.stats.escalated}),backgroundColor:'#dc2626',borderRadius:3}]},options:{responsive:true,plugins:{legend:{position:'bottom',labels:{boxWidth:12,font:{size:11}}}},scales:{x:{stacked:true},y:{stacked:true,ticks:{stepSize:1}}}}});
 });
 </script>

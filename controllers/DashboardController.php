@@ -24,6 +24,7 @@ final class DashboardController
                 'summary' => $feedback->summary(),
                 'recent' => $feedback->paginate([], 1, 8)['items'],
                 'activity' => (new AuditLog())->latest(8),
+                'staffAssignments' => (new User())->listWithAssignments(),
             ]);
         }
     }

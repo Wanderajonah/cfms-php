@@ -27,6 +27,8 @@ $router->post("/profile", [AuthController::class, "updateProfile"]);
 $router->get("/dashboard", [DashboardController::class, "index"]);
 $router->get("/inbox", [InboxController::class, "index"]);
 $router->get("/complaints", [FeedbackController::class, "complaints"]);
+$router->get("/suggestions", [FeedbackController::class, "suggestions"]);
+$router->get("/compliments", [FeedbackController::class, "compliments"]);
 $router->get("/analytics", [AnalyticsController::class, "index"]);
 $router->get("/activity", [ActivityController::class, "index"]);
 $router->get("/system/audit", [SystemController::class, "audit"]);

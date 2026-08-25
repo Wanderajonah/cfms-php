@@ -26,6 +26,7 @@ final class AnalyticsController
             View::render('analytics/index', [
                 'title' => 'Analytics',
                 'summary' => $feedback->summary(),
+                'staffAssignments' => (new User())->listWithAssignments(),
             ]);
         }
     }

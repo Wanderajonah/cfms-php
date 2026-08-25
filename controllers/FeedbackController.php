@@ -142,6 +142,44 @@ final class FeedbackController
         ]);
     }
 
+    public function suggestions(): void
+    {
+        Auth::require();
+        $filters = $_GET;
+        $filters['type'] = 'suggestion';
+        $user = Auth::user();
+        if ($user && $user['role_slug'] !== 'admin') {
+            $filters['assignedTo'] = $user['email'];
+        }
+        $page = max(1, (int) ($filters['page'] ?? 1));
+        $paginated = (new Feedback())->paginate($filters, $page, 10, (string) ($_GET['sort'] ?? '-createdAt'));
+        View::render('suggestions/index', [
+            'title' => 'Suggestions',
+            'data' => $paginated,
+            'filters' => $filters,
+            'branches' => (new Branch())->list(),
+        ]);
+    }
+
+    public function compliments(): void
+    {
+        Auth::require();
+        $filters = $_GET;
+        $filters['type'] = 'compliment';
+        $user = Auth::user();
+        if ($user && $user['role_slug'] !== 'admin') {
+            $filters['assignedTo'] = $user['email'];
+        }
+        $page = max(1, (int) ($filters['page'] ?? 1));
+        $paginated = (new Feedback())->paginate($filters, $page, 10, (string) ($_GET['sort'] ?? '-createdAt'));
+        View::render('compliments/index', [
+            'title' => 'Compliments',
+            'data' => $paginated,
+            'filters' => $filters,
+            'branches' => (new Branch())->list(),
+        ]);
+    }
+
     public function show(int $id): void
     {
         Auth::require();
